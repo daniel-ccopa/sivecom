@@ -1,0 +1,27 @@
+{
+  "expediente_id": 1,
+  "verdict": "revision_manual",
+  "summary": {
+    "ok": 6,
+    "warnings": 2,
+    "errors": 0,
+    "critical": 0
+  },
+  "validations": [
+    {
+      "rule_id": "R001",
+      "name": "Documentos obligatorios",
+      "status": "OK",
+      "passed": true,
+      "message": "Todos los documentos obligatorios fueron detectados.",
+      "evidence": [
+        {
+          "document_type": "orden_servicio",
+          "page": 11,
+          "text": "ORDEN DE SERVICIO"
+        }
+      ],
+      "recommendation": "Continuar revisión."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "expediente_id": 1,
+  "fields": [
+    {
+      "field": "numero_os",
+      "value": "0001582",
+      "normalized_value": "0001582",
+      "confidence": 0.95,
+      "page": 1,
+      "document_type": "orden_servicio",
+      "evidence": "ORDEN DE SERVICIO N° 0001582",
+      "method": "regex",
+      "status": "encontrado"
+    }
+  ],
+  "conflicts": []
+}
