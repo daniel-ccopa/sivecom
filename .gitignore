@@ -54,10 +54,11 @@ storage/paddleocr_models/*
 # Local PDF samples or expediente documents
 documents/
 docs/
-promts/
+prompts/
 rules/
 skills/
 backlog/
+
 
 
 GUIA_ESTRUCTURA_DOCKER.md
