@@ -5,7 +5,7 @@
 - [ ] El sistema procesa el PDF en segundo plano.
 - [ ] El sistema extrae texto directo u OCR.
 - [ ] El sistema clasifica documentos principales.
-- [ ] El sistema extrae número de O/S, RUC, fechas y montos.
+- [ ] El sistema extrae numero de O/S, RUC, proveedor, monto de O/S, monto de entregable, concepto y descripcion del servicio.
 - [ ] El sistema valida documentos obligatorios.
 - [ ] El sistema compara montos.
 - [ ] El sistema genera alertas.

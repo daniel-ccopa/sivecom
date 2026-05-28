@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+*.log
+
+# Node
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local configuration
+.env
+.env.*
+
+
+# Uploaded/generated local data. Keep directory markers.
+storage/uploads/*
+storage/metadata/*
+storage/text_extractions/*
+storage/segmentations/*
+storage/data_extractions/*
+storage/validations/*
+storage/pages/*
+storage/reports/*
+storage/paddleocr_models/*
+!storage/uploads/.gitkeep
+!storage/metadata/.gitkeep
+!storage/text_extractions/.gitkeep
+!storage/segmentations/.gitkeep
+!storage/data_extractions/.gitkeep
+!storage/validations/.gitkeep
+!storage/pages/.gitkeep
+!storage/reports/.gitkeep
+!storage/paddleocr_models/.gitkeep
+
+# AI planning scaffolding used during project creation, not needed at runtime.
+skills/
+prompts/
+backlog/
+
+
+# Local Docker/build scratch data
+.docker-tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
+# other
+GUIA_ESTRUCTURA_DOCKER.md
+
+documents/
+

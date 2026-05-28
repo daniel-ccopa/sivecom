@@ -1,96 +1,130 @@
-# Reglas iniciales de validación
+# Reglas actuales de validacion
 
-## R001 - Documentos obligatorios
+El motor de validacion queda enfocado en los datos principales del expediente. La finalidad es apoyar la revision administrativa sin exigir documentos o datos secundarios que pueden faltar por OCR o por formato del expediente.
 
-Debe existir al menos:
+## Campos principales
 
-- carta_solicitud
-- orden_servicio
-- comprobante: factura o recibo_honorarios
-- informe_actividades
+El sistema intenta extraer:
+
+- Numero de orden de servicio.
+- RUC del proveedor.
+- Nombre o razon social del proveedor.
+- Monto total de la O/S.
+- Monto del entregable o comprobante.
+- Concepto.
+- Descripcion del servicio.
+
+## R001 - Campos principales detectados
+
+Verifica presencia de los campos principales.
 
 Resultado:
-- Falta uno: ERROR.
-- Baja confianza: WARNING.
+
 - Todos presentes: OK.
+- Faltan datos principales: ADVERTENCIA.
 
-## R002 - Número de orden de servicio
+No genera rechazo automatico por ausencia de carta, fechas, adjuntos, firmantes o sellos.
 
-El número de O/S debe coincidir entre documentos.
+## R000 - Documentos obligatorios
+
+Verifica que el expediente tenga los 4 documentos obligatorios para conformidad:
+
+- Carta.
+- Orden de servicio.
+- Informe de actividades o acta de entrega equivalente.
+- Comprobante de pago: recibo por honorarios o factura.
 
 Resultado:
-- Coincide: OK.
-- Falta en algún documento no crítico: WARNING.
-- Aparece diferente: ERROR.
+
+- Todos presentes: OK.
+- Alguno presente con baja confianza: ADVERTENCIA.
+- Falta uno o mas documentos obligatorios: ERROR.
+
+El mensaje debe indicar exactamente que documento falta y que documentos si fueron detectados, con paginas y evidencia.
+
+## R002 - Numero de orden de servicio
+
+Revisa que los numeros de O/S extraidos no entren en conflicto.
+
+Resultado:
+
+- Unico valor detectado: OK.
+- No encontrado o valores diferentes: ADVERTENCIA.
+
+La comparacion ignora ceros iniciales de relleno para no marcar conflicto entre variantes como `001089` y `0001089`, conservando siempre la evidencia original.
 
 ## R003 - RUC del proveedor
 
-El RUC debe tener 11 dígitos y coincidir entre O/S y comprobante.
+Revisa formato de 11 digitos y consistencia de RUC.
 
 Resultado:
-- Coincide: OK.
-- No encontrado: WARNING.
-- Diferente: ERROR.
 
-## R004 - Monto total
+- RUC valido y unico: OK.
+- No encontrado, formato invalido o valores diferentes: ADVERTENCIA.
 
-El monto total del comprobante no debe superar el monto total de la O/S.
+## R004 - Revision de montos
 
-Resultado:
-- Menor o igual: OK.
-- Mayor: ERROR.
-- No se pudo extraer: WARNING.
-
-## R005 - IGV
-
-Si se detectan subtotal, IGV y total, verificar que subtotal + IGV = total.
-
-Tolerancia: S/ 0.05.
+Compara monto total de la O/S contra monto del entregable/comprobante cuando ambos existan.
 
 Resultado:
-- Correcto: OK.
-- Diferencia leve: WARNING.
-- Diferencia importante: ERROR.
 
-## R006 - Fechas
+- Entregable menor o igual a la O/S: OK.
+- Faltan montos suficientes para comparar: ADVERTENCIA.
+- Monto del entregable supera la O/S: ERROR.
 
-Validar coherencia temporal.
+## R008 - Cronograma de entregables
 
-Resultado:
-- Fechas coherentes: OK.
-- Fecha dudosa: WARNING.
-- Fecha final antes de inicial: ERROR.
-
-## R007 - Informe coherente
-
-El informe debe contener términos relacionados con el servicio contratado.
+Valida la forma de pago indicada en la O/S cuando se detectan entregables y porcentajes.
 
 Resultado:
-- Coherente: OK.
-- Poco claro: WARNING.
-- No relacionado: ERROR.
 
-## R008 - Firma o sello probable
+- Si no se detecta cronograma, no genera alerta adicional y se mantiene R004.
+- Si la O/S indica porcentajes por entregable, los porcentajes deben sumar 100%.
+- El monto del comprobante debe coincidir con alguno de los montos programados por entregable.
+- Si hay un unico entregable, el comprobante debe coincidir con el monto total de la O/S.
+- Si faltan montos o el OCR no permite comparar, genera ADVERTENCIA con evidencia.
 
-Detectar firma/sello por texto y análisis visual simple.
+## R005 - Concepto y descripcion
 
-Resultado:
-- Evidencia probable: OK.
-- No encontrado: WARNING.
-
-## R009 - Expediente duplicado
-
-Comparar hash del PDF y número de O/S + comprobante.
+Verifica que se haya extraido concepto y descripcion del servicio.
 
 Resultado:
-- No duplicado: OK.
-- Posible duplicado: WARNING.
-- Duplicado exacto: ERROR.
 
-## R010 - Páginas en blanco
+- Los dos datos fueron detectados: OK.
+- Falta alguno: ADVERTENCIA.
 
-Detectar páginas en blanco.
+## R006 - Coincidencia de proveedor
+
+Compara los nombres o razones sociales del proveedor detectados en los documentos.
+La comparacion usa tokens normalizados, por lo que acepta el mismo nombre en distinto orden, por ejemplo `nombre apellidos` frente a `apellidos nombre`, siempre que los componentes principales coincidan.
 
 Resultado:
-- No afecta: INFO.
-- Página en blanco dentro de documento importante: WARNING.
+
+- Unico proveedor o nombres compatibles: OK.
+- No se encontro proveedor o hay baja coincidencia entre nombres: ADVERTENCIA.
+
+## R007 - Coherencia del servicio
+
+Compara el concepto o descripcion del servicio entre los documentos donde se pudo extraer.
+
+No usa como base textos administrativos de carta como `solicito conformidad de pago` o `primer entregable` cuando no describen el servicio contratado.
+
+Resultado:
+
+- Coincidencia textual suficiente entre documentos: OK.
+- Si el concepto solo aparece en la orden de servicio, pero los 4 documentos obligatorios fueron detectados y no hay texto contradictorio: OK.
+- Solo se encontro en un documento sin soporte documental suficiente o no hay coincidencia clara: ADVERTENCIA.
+
+## Reglas descartadas en esta etapa
+
+Para reducir exigencia y evitar rechazos por datos secundarios, el motor actual no valida automaticamente:
+
+- Fechas de emision.
+- Periodo del servicio.
+- Lista de documentos adjuntos.
+- Numero de carta o informe.
+- Nombres y cargos de firmantes.
+- Valor venta e IGV.
+- Actividades o dias trabajados.
+- Posibles duplicados.
+- Firmas o sellos.

@@ -33,7 +33,7 @@ Antes de escribir código, el agente debe leer:
 - PostgreSQL
 - Redis + Celery o RQ para procesamiento en segundo plano
 - PyMuPDF / pdfplumber / pdf2image
-- OCR: Tesseract, EasyOCR o PaddleOCR
+- OCR: PaddleOCR como motor local principal
 
 ### Frontend
 - React + TypeScript

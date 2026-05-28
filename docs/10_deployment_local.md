@@ -26,7 +26,9 @@ REDIS_URL=redis://redis:6379/0
 SECRET_KEY=change_me
 UPLOAD_DIR=/app/storage/uploads
 MAX_UPLOAD_MB=50
-OCR_ENGINE=tesseract
+OCR_LANGUAGE=es
+PADDLE_OCR_BASE_DIR=/app/storage/paddleocr_models
+PADDLE_USE_GPU=false
 ```
 
 ## 4. Servicios mínimos

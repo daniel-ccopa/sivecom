@@ -71,7 +71,7 @@ No incluye en el MVP:
 
 - Backend: FastAPI.
 - Procesamiento de PDF: PyMuPDF, pdfplumber, pdf2image.
-- OCR: Tesseract, EasyOCR o PaddleOCR.
+- OCR: PaddleOCR como motor local principal.
 - Validación: motor de reglas propio.
 - Base de datos: PostgreSQL.
 - Cola de tareas: Celery/RQ + Redis.

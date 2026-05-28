@@ -63,11 +63,13 @@ Aplicar OCR cuando:
 - El texto directo es vacío.
 - La página parece ser una imagen escaneada.
 
-Opciones:
+Motor configurado para SIVECOM:
 
-- Tesseract: simple y local.
+- PaddleOCR: buena precisión para escaneos y documentos administrativos, con ejecución local.
+
+Opcion alternativa futura:
+
 - EasyOCR: útil para escaneos.
-- PaddleOCR: buena precisión, más pesado.
 
 ## 6. Preprocesamiento visual
 
