@@ -24,6 +24,8 @@ pnpm-debug.log*
 # Local configuration
 .env
 .env.*
+!.env.example
+!frontend/.env.example
 
 
 # Uploaded/generated local data. Keep directory markers.
@@ -46,14 +48,18 @@ storage/paddleocr_models/*
 !storage/reports/.gitkeep
 !storage/paddleocr_models/.gitkeep
 
-# AI planning scaffolding used during project creation, not needed at runtime.
-skills/
-prompts/
-backlog/
-
-
 # Local Docker/build scratch data
 .docker-tmp/
+
+# Local PDF samples or expediente documents
+documents/
+docs/
+promts/
+rules/
+skills/
+
+GUIA_ESTRUCTURA_DOCKER.md
+
 
 # OS / editor
 .DS_Store
@@ -62,8 +68,4 @@ Desktop.ini
 .idea/
 .vscode/
 
-# other
-GUIA_ESTRUCTURA_DOCKER.md
-
-documents/
 
